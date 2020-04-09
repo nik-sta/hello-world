@@ -14,3 +14,5 @@ oc port-forward <POD_NAME> -n hello-world 8000:8000
 ```
 
 _**Hint:** Replace '<POD_NAME>' with your pod name from OpenShift._
+
+![Remote Debugging Configuration](/images/remote-debugging.png)
