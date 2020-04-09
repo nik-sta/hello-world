@@ -1,4 +1,4 @@
-# hello-world
+# Hello-World Sample Application
 Java hello-world application with spring boot for remote debugging purposes with spring boot dev tools.
 
 ## Step 1: Release your application on OpenShift
