@@ -1,15 +1,25 @@
 plugins {
 	id "java"
 	id "idea"
-	id "org.springframework.boot" version "2.2.5.RELEASE"
+	id "application"
+	id "com.palantir.docker" version "0.25.0"
+	id "org.springframework.boot" version "2.2.6.RELEASE"
 	id "io.spring.dependency-management" version "1.0.9.RELEASE"
 }
 
-group = "com.example"
+group = "xyz.stankovic.nikola"
 version = "1.0.0"
 
-sourceCompatibility = JavaVersion.VERSION_13
-targetCompatibility = JavaVersion.VERSION_13
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+application {
+	mainClassName = "xyz.stankovic.nikola.helloworld.HelloWorldApplication"
+}
+
+bootJar {
+	excludeDevtools = false
+}
 
 repositories {
 	mavenLocal()
@@ -19,6 +29,8 @@ repositories {
 dependencies {
 	implementation "org.springframework.boot:spring-boot-starter"
 	implementation "org.springframework.boot:spring-boot-starter-web"
+
+	implementation "org.springframework.boot:spring-boot-devtools"
 
 	compileOnly 'org.projectlombok:lombok:1.18.12'
 	annotationProcessor 'org.projectlombok:lombok:1.18.12'
@@ -33,4 +45,11 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+docker {
+	name "${project.group}/${rootProject.name}:${version}"
+	dockerfile file("docker/Dockerfile")
+	files jar.archiveFile
+	buildArgs([JAR_NAME: "${jar.archiveFileName}"])
 }

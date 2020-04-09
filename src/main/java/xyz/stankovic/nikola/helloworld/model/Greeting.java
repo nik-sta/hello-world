@@ -1,4 +1,4 @@
-package com.example.helloworld.model;
+package xyz.stankovic.nikola.helloworld.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
