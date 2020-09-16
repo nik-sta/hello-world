@@ -1,11 +1,11 @@
 plugins {
-	id "java"
-	id "idea"
-	id "application"
-	id "com.palantir.docker" version "0.25.0"
-	id "com.palantir.git-version" version "0.12.3"
-	id "org.springframework.boot" version "2.3.3.RELEASE"
-	id "io.spring.dependency-management" version "1.0.10.RELEASE"
+    id "java"
+    id "idea"
+    id "application"
+    id "com.palantir.docker" version "0.25.0"
+    id "com.palantir.git-version" version "0.12.3"
+    id "org.springframework.boot" version "2.3.3.RELEASE"
+    id "io.spring.dependency-management" version "1.0.10.RELEASE"
 }
 
 group = "io.botscripter"
@@ -15,42 +15,42 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 application {
-	mainClassName = "io.botscripter.helloworld.HelloWorldApplication"
+    mainClassName = "io.botscripter.helloworld.HelloWorldApplication"
 }
 
 bootJar {
-	excludeDevtools = false
+    excludeDevtools = false
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	lombokVersion = "1.18.12"
+    lombokVersion = "1.18.12"
 }
 
 dependencies {
-	implementation "org.springframework.boot:spring-boot-starter-web"
-	implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
 
-	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-	testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 
-	compileOnly "org.springframework.boot:spring-boot-devtools"
+    compileOnly "org.springframework.boot:spring-boot-devtools"
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 docker {
-	name "${project.group}/${rootProject.name}:${version}"
-	dockerfile file("docker/Dockerfile")
-	files jar.archiveFile
-	buildArgs([JAR_NAME: "${jar.archiveFileName}"])
+    name "${project.group}/${rootProject.name}:${version}"
+    dockerfile file("docker/Dockerfile")
+    files jar.archiveFile
+    buildArgs([JAR_NAME: "${jar.archiveFileName}"])
 }

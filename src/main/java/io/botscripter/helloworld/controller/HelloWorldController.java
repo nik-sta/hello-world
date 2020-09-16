@@ -1,10 +1,10 @@
-package xyz.stankovic.nikola.helloworld.controller;
+package io.botscripter.helloworld.controller;
 
+import io.botscripter.helloworld.model.Greeting;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import xyz.stankovic.nikola.helloworld.model.Greeting;
 
 import java.util.concurrent.atomic.AtomicLong;
 
