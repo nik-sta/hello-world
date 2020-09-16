@@ -18,3 +18,10 @@ _**Hint:** Replace '<POD_NAME>' with your pod name from OpenShift._
 ## Step 3: Configure Remote Debugging in IntelliJ IDEA
 
 ![Remote Debugging Configuration](/images/remote-debugging.png)
+
+## Upgrade Gradle Wrapper
+To upgrade the gradle wrapper replace GRADLE_VERSION with the desired version and execute the following command:
+
+```
+./gradlew wrapper --gradle-version=GRADLE_VERSION --distribution-type=all
+```

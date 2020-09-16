@@ -9,7 +9,7 @@ echo "Build Project ..."
 
 function update {
   echo "Push Project ..."
-  docker tag xyz.stankovic.nikola/hello-world:${VERSION} registry-curo.umb.cloud/hello-world/hello-world:${VERSION}
+  docker tag io.botscripter/hello-world:${VERSION} registry-curo.umb.cloud/hello-world/hello-world:${VERSION}
   docker push registry-curo.umb.cloud/hello-world/hello-world:${VERSION}
   oc tag --source=docker registry-curo.umb.cloud/hello-world/hello-world:${VERSION} hello-world/hello-world:stable
 }

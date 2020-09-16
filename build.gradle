@@ -3,18 +3,19 @@ plugins {
 	id "idea"
 	id "application"
 	id "com.palantir.docker" version "0.25.0"
-	id "org.springframework.boot" version "2.2.6.RELEASE"
-	id "io.spring.dependency-management" version "1.0.9.RELEASE"
+	id "com.palantir.git-version" version "0.12.3"
+	id "org.springframework.boot" version "2.3.3.RELEASE"
+	id "io.spring.dependency-management" version "1.0.10.RELEASE"
 }
 
-group = "xyz.stankovic.nikola"
-version = "1.0.0"
+group = "io.botscripter"
+version gitVersion()
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 application {
-	mainClassName = "xyz.stankovic.nikola.helloworld.HelloWorldApplication"
+	mainClassName = "io.botscripter.helloworld.HelloWorldApplication"
 }
 
 bootJar {
@@ -22,25 +23,25 @@ bootJar {
 }
 
 repositories {
-	mavenLocal()
 	mavenCentral()
 }
 
+ext {
+	lombokVersion = "1.18.12"
+}
+
 dependencies {
-	implementation "org.springframework.boot:spring-boot-starter"
 	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter-actuator"
 
-	implementation "org.springframework.boot:spring-boot-devtools"
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-	compileOnly 'org.projectlombok:lombok:1.18.12'
-	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
 
-	testCompileOnly 'org.projectlombok:lombok:1.18.12'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
-
-	testImplementation("org.springframework.boot:spring-boot-starter-test") {
-		exclude group: "org.junit.vintage", module: "junit-vintage-engine"
-	}
+	compileOnly "org.springframework.boot:spring-boot-devtools"
 }
 
 test {

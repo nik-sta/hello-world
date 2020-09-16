@@ -1,4 +1,4 @@
-package xyz.stankovic.nikola.helloworld.model;
+package io.botscripter.helloworld.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
