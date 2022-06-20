@@ -19,7 +19,16 @@ internal class HelloWorldApplicationTests {
     lateinit var restTemplate: TestRestTemplate
 
     @Test
-    fun shouldReturn200WhenSendingRequestToController() {
+    fun shouldReturn200WhenSendingRequestToControllerWithoutRequestParam() {
+        val result = restTemplate.getForEntity("/hello-world", Greeting::class.java);
+
+        assertNotNull(result)
+        assertEquals(HttpStatus.OK, result?.statusCode)
+        assertEquals("Hello, Stranger!", result.body?.content)
+    }
+
+    @Test
+    fun shouldReturn200WhenSendingRequestToControllerWithRequestParam() {
         val result = restTemplate.getForEntity("/hello-world?name=botscripter", Greeting::class.java);
 
         assertNotNull(result)
