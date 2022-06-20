@@ -1,13 +1,27 @@
-FROM openjdk:11-jdk
+ARG JAR_FILE
 
-WORKDIR /home/app
+FROM eclipse-temurin:17-jre-alpine
 
-ENV JAVA_OPTS -Xms128m -Xmx300m -Xss512k -XX:CICompilerCount=2 -XX:+UseContainerSupport -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
+ENV APP $JAR_FILE
 
-COPY $JAR_NAME/*.jar $JAR_NAME.jar
+RUN apk update && apk add dumb-init curl jq
 
-ENV PORT 8080
-EXPOSE $PORT
-EXPOSE 8000
+WORKDIR /srv/hello_world
 
-CMD [ "sh", "-c", "java $JAVA_OPTS -jar $JAR_NAME.jar --bind 0.0.0.0:$PORT" ]
+COPY $APP .
+COPY run_application.sh .
+RUN chmod +x run_application.sh
+
+ENV USER=exie
+ENV GROUP=party
+ENV LOG_FOLDER=/srv/hello_world/logs
+
+RUN addgroup -S $GROUP && adduser -S -D -H $USER -G $GROUP
+RUN mkdir -p $LOG_FOLDER && chgrp $GROUP $LOG_FOLDER && chmod g+rwx $LOG_FOLDER
+
+USER $USER
+
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/srv/hello_world/run_application.sh"]

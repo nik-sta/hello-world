@@ -2,17 +2,17 @@ plugins {
     id "java"
     id "idea"
     id "application"
-    id "com.palantir.docker" version "0.25.0"
-    id "com.palantir.git-version" version "0.12.3"
     id "org.springframework.boot" version "2.3.3.RELEASE"
     id "io.spring.dependency-management" version "1.0.10.RELEASE"
+    id "com.palantir.docker" version "0.25.0"
+    id "com.palantir.git-version" version "0.12.3"
 }
 
 group = "io.botscripter"
 version gitVersion()
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 application {
     mainClassName = "io.botscripter.helloworld.HelloWorldApplication"
@@ -20,6 +20,11 @@ application {
 
 bootJar {
     excludeDevtools = false
+    archiveFileName = "hello-world.jar"
+}
+
+springBoot {
+    buildInfo()
 }
 
 repositories {
@@ -27,7 +32,7 @@ repositories {
 }
 
 ext {
-    lombokVersion = "1.18.12"
+    lombokVersion = "1.18.24"
 }
 
 dependencies {
@@ -49,8 +54,11 @@ test {
 }
 
 docker {
+    dependsOn bootJar
     name "${project.group}/${rootProject.name}:${version}"
     dockerfile file("docker/Dockerfile")
-    files jar.archiveFile
-    buildArgs([JAR_NAME: "${jar.archiveFileName}"])
+    files bootJar.archivePath, 'docker/run_application.sh'
+    buildArgs([JAR_FILE: "${jar.archiveFileName}"])
+    pull true
+    noCache true
 }
