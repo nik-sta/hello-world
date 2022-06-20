@@ -1,9 +1,9 @@
-GET http://localhost:8080/hello-world?name=Handsome
+GET http://localhost:8080/hello-world
 Accept: application/json
 
 ###
 
-GET https://hello-world.apps-dev.umb.cloud/hello-world?name=Nikola
+GET https://hello-world.apps-dev.umb.cloud/hello-world?name=botscripter
 Accept: application/json
 
 ###
