@@ -9,11 +9,10 @@ plugins {
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
 
     id "com.palantir.docker" version "0.33.0"
-    id "com.palantir.git-version" version "0.15.0"
 }
 
 group = "io.botscripter"
-version gitVersion()
+version = "1.0.0"
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
@@ -26,16 +25,16 @@ bootJar {
     archiveFileName = "hello-world.jar"
 }
 
+jar {
+    enabled = false
+}
+
 springBoot {
     buildInfo()
 }
 
 repositories {
     mavenCentral()
-}
-
-ext {
-    lombokVersion = "1.18.24"
 }
 
 dependencies {
