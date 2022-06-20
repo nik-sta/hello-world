@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build with Gradle
-        run: ./gradlew build --warn --stacktrace --scan
+        run: ./gradlew build --warn --stacktrace
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
