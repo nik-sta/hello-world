@@ -1,11 +1,15 @@
 plugins {
-    id "java"
     id "idea"
     id "application"
-    id "org.springframework.boot" version "2.3.3.RELEASE"
-    id "io.spring.dependency-management" version "1.0.10.RELEASE"
-    id "com.palantir.docker" version "0.25.0"
-    id "com.palantir.git-version" version "0.12.3"
+
+    id 'org.jetbrains.kotlin.jvm' version '1.7.0'
+    id "org.jetbrains.kotlin.plugin.spring" version "1.7.0"
+
+    id "org.springframework.boot" version "2.7.0"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+
+    id "com.palantir.docker" version "0.33.0"
+    id "com.palantir.git-version" version "0.15.0"
 }
 
 group = "io.botscripter"
@@ -19,7 +23,6 @@ application {
 }
 
 bootJar {
-    excludeDevtools = false
     archiveFileName = "hello-world.jar"
 }
 
@@ -36,21 +39,21 @@ ext {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
     testImplementation "org.springframework.boot:spring-boot-starter-test"
-
-    compileOnly "org.springframework.boot:spring-boot-devtools"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
 }
 
-test {
+tasks.named("test") {
     useJUnitPlatform()
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "17"
+    }
 }
 
 docker {
