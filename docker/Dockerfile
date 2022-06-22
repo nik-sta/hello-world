@@ -1,27 +1,42 @@
+# Making here use of a docker multi-stage build
+# https://docs.docker.com/develop/develop-images/multistage-build/
+
+# Build-time container
+FROM eclipse-temurin:17.0.3_7-jre-alpine as builder
+WORKDIR application
 ARG JAR_FILE
+COPY $JAR_FILE application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
 
-FROM eclipse-temurin:17-jre-alpine
+# Run-time container
+FROM eclipse-temurin:17.0.3_7-jre-alpine
 
-ENV APP $JAR_FILE
+ARG USER=exie
+ARG GROUP=party
+ARG LOG_FOLDER=/srv/app/logs
 
-RUN apk update && apk add dumb-init curl jq
+## Adding programs for operation
+RUN apk update && \
+    apk add dumb-init curl jq && \
+    rm -rf /var/cache/apk/*
 
-WORKDIR /srv/hello_world
+WORKDIR /srv/app
 
-COPY $APP .
 COPY run_application.sh .
-RUN chmod +x run_application.sh
 
-ENV USER=exie
-ENV GROUP=party
-ENV LOG_FOLDER=/srv/hello_world/logs
+RUN addgroup -S $GROUP && \
+    adduser -S -D -H $USER -G $GROUP && \
+    mkdir -p $LOG_FOLDER && \
+    chgrp $GROUP $LOG_FOLDER && \
+    chmod g+rwx $LOG_FOLDER && \
+    chmod +x run_application.sh
 
-RUN addgroup -S $GROUP && adduser -S -D -H $USER -G $GROUP
-RUN mkdir -p $LOG_FOLDER && chgrp $GROUP $LOG_FOLDER && chmod g+rwx $LOG_FOLDER
+## Spring Boot Layers
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
 
 USER $USER
-
-EXPOSE 8080
-
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["/srv/hello_world/run_application.sh"]
+CMD ["/srv/app/run_application.sh"]
