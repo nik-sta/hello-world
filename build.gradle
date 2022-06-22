@@ -1,6 +1,7 @@
 plugins {
     id "idea"
     id "application"
+    id "maven-publish"
 
     id 'org.jetbrains.kotlin.jvm' version '1.7.0'
     id "org.jetbrains.kotlin.plugin.spring" version "1.7.0"
@@ -13,9 +14,6 @@ plugins {
 
 group = "io.botscripter"
 version = "1.0.0"
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
 
 application {
     mainClassName = "io.botscripter.helloworld.HelloWorldApplication"
@@ -35,6 +33,13 @@ springBoot {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.github.com/botscripter/*")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -67,4 +72,46 @@ docker {
     buildArgs([JAR_FILE: "${jar.archiveFileName}"])
     pull true
     noCache true
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/botscripter/hello-world")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                groupId = 'io.botscripter'
+                name = 'hello-world'
+                description = 'Plain Kotlin hello-world application with Spring Boot.'
+                url = 'https://github.com/botscripter/hello-world'
+                packaging = 'jar'
+
+                scm {
+                    url = 'https://github.com/botscripter/hello-world'
+                    connection = 'scm:git://github.com/botscripter/hello-world.git'
+                    developerConnection = 'scm:git://github.com/botscripter/hello-world.git'
+                }
+
+                developers {
+                    developer {
+                        id = 'botscripter'
+                        name = 'Nikola Stankovic'
+                        email = 'this@botscripter.io'
+                        organizationUrl = 'https://botscripter.io/'
+                    }
+                }
+            }
+        }
+    }
 }
