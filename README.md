@@ -13,7 +13,6 @@ To build this application execute the following command:
         --tag io.botscripter/hello-world:1.0.0 \
         --build-arg APP_NAME=hello-world \
         --build-arg JAR_FILE=hello-world.jar \
-        -f Dockerfile_DEBIAN \
         .
 
     docker run \

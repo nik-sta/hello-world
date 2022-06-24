@@ -2,24 +2,24 @@
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
 # Build-time container
-FROM eclipse-temurin:18-jdk-alpine as builder
-WORKDIR application
+FROM eclipse-temurin:17.0.3_7-jdk-alpine as builder
 ARG JAR_FILE
+WORKDIR application
 COPY $JAR_FILE application.jar
-RUN jlink --no-header-files --no-man-pages --compress 2 --add-modules ALL-MODULE-PATH --output /opt/java-runtime ##--compress=2
-RUN java -Djarmode=layertools -jar application.jar extract
+COPY build_application.sh ./
+RUN sh build_application.sh
 
 # Run-time container
-FROM alpine:latest
+FROM alpine:3.16.0
 
 ARG APP_NAME=app
 ARG USER=exie
 ARG GROUP=party
 ARG LOG_FOLDER=/srv/app/logs
 
-ENV APP=$APP_NAME
-ENV JAVA_HOME=/opt/java
-ENV PATH "${JAVA_HOME}/bin:${PATH}"
+ENV APP=$APP_NAME \
+    JAVA_HOME=/opt/java \
+    PATH="${JAVA_HOME}/bin:${PATH}"
 
 ## Adding programs for operation
 RUN apk update && \
@@ -37,6 +37,7 @@ RUN addgroup -S $GROUP && \
     chmod g+rwx $LOG_FOLDER && \
     chmod +x /etc/run_application.sh
 
+## Application-specif created JRE
 COPY --from=builder /opt/java-runtime $JAVA_HOME
 
 ## Spring Boot Layers
