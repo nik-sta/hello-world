@@ -23,7 +23,7 @@ ENV APP=$APP_NAME \
 
 ## Adding programs for operation
 RUN apk update && \
-    apk --no-cache add dumb-init curl jq && \
+    apk --no-cache add dumb-init curl jq jattach && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /srv/$APP
