@@ -13,12 +13,15 @@ To build this application execute the following command:
         --tag io.botscripter/hello-world:1.0.0 \
         --build-arg APP_NAME=hello-world \
         --build-arg JAR_FILE=hello-world.jar \
-        --no-cache \
+        --file Dockerfile_alpine \
         .
 
     docker run \
         -p 8080:8080 \
+        --detach \
         io.botscripter/hello-world:1.0.0
+
+    docker exec -it inspiring_noether /bin/sh 
 
     docker run \
         -it \

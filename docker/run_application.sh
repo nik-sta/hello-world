@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-JAVA_OPTS="-Dfile.encoding=UTF-8 -Duser.timezone=UTC"
+JAVA_OPTS="-Dfile.encoding=UTF-8 -Duser.timezone=UTC -XX:NativeMemoryTracking=summary -XX:+HeapDumpOnOutOfMemoryError"
 PORT="8080"
 
 cd /srv/"$APP" || exit
