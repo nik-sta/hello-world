@@ -2,7 +2,7 @@
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
 # Build-time container
-FROM eclipse-temurin:17.0.4_8-jdk-alpine as builder
+FROM eclipse-temurin:18.0.2_9-jdk-alpine as builder
 ARG JAR_FILE
 WORKDIR application
 COPY $JAR_FILE application.jar
