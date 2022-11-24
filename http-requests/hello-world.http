@@ -3,7 +3,7 @@ Accept: application/json
 
 ###
 
-GET http://localhost:8080/hello-world?name=botscripter
+GET http://localhost:8080/hello-world?name=Nikola
 Accept: application/json
 
 ###

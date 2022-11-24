@@ -1,6 +1,3 @@
-# Making here use of a docker multi-stage build
-# https://docs.docker.com/develop/develop-images/multistage-build/
-
 # Build-time container
 FROM eclipse-temurin:17.0.4_8-jdk-alpine as builder
 ARG JAR_FILE
@@ -10,7 +7,7 @@ COPY build_application.sh ./
 RUN sh build_application.sh
 
 # Run-time container
-FROM alpine:3.16.3
+FROM alpine:3.16.2
 
 ARG APP_NAME=app
 ARG USER=exie
@@ -42,8 +39,11 @@ COPY --from=builder /opt/java-runtime $JAVA_HOME
 
 ## Spring Boot Layers
 COPY --from=builder application/spring-boot-loader/ ./
+RUN true
 COPY --from=builder application/dependencies/ ./
+RUN true
 COPY --from=builder application/snapshot-dependencies/ ./
+RUN true
 COPY --from=builder application/application/ ./
 
 USER $USER

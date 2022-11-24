@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/sh
 
 JAR_FILE=application.jar
 if [ ! -f "$JAR_FILE" ]; then
@@ -14,7 +14,9 @@ REQUIRED_JAVA_MODULES="$(jdeps \
                             --multi-release 17 \
                             --class-path="./BOOT-INF/lib/*" \
                             --module-path="./BOOT-INF/lib/*" \
-                            ./application.jar)"
+                            ./application.jar),jdk.crypto.ec"
+
+echo "$REQUIRED_JAVA_MODULES"
 
 if [ -z "$REQUIRED_JAVA_MODULES" ]; then
     echo "build.error: required java modules are not determined!"

@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/sh
 
 JAVA_OPTS="-Dfile.encoding=UTF-8 -Duser.timezone=UTC -XX:NativeMemoryTracking=summary -XX:+HeapDumpOnOutOfMemoryError"
 PORT="8080"
