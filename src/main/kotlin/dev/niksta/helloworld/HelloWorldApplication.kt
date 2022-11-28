@@ -1,4 +1,4 @@
-package io.botscripter.helloworld
+package dev.niksta.helloworld
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

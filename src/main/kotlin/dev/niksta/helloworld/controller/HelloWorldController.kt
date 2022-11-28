@@ -1,6 +1,6 @@
-package io.botscripter.helloworld.controller
+package dev.niksta.helloworld.controller
 
-import io.botscripter.helloworld.model.Greeting
+import dev.niksta.helloworld.model.Greeting
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping

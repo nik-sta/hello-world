@@ -1,5 +1,25 @@
 server.port: 8080
 
+application:
+  name: Hello World
+  version: 1.0.0
+
+logging:
+  level:
+    org.zalando.logbook: TRACE
+    io.viascom.bot.discord.darkstim: DEBUG
+  file:
+    name: ./logs/hello-world.log
+
+logbook:
+  format:
+    style: json
+  strategy: body-only-if-status-at-least
+  minimum-status: 0
+  exclude:
+    - /actuator/health
+    - /actuator/info
+
 management:
   endpoints.web.exposure.include: info,health
   endpoint.health.show-details: always

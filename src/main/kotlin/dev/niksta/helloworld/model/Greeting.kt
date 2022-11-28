@@ -1,4 +1,4 @@
-package io.botscripter.helloworld.model
+package dev.niksta.helloworld.model
 
 data class Greeting(
     val id: Long = 0,

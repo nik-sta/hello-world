@@ -1,6 +1,6 @@
-package io.botscripter.helloworld
+package dev.niksta.helloworld
 
-import io.botscripter.helloworld.model.Greeting
+import dev.niksta.helloworld.model.Greeting
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test

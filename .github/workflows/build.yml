@@ -6,7 +6,6 @@ on:
       - '*'
     paths-ignore:
       - '**.md'
-      - '**.sql'
       - '.github/**'
     tags:
       - '*'
@@ -22,7 +21,7 @@ jobs:
           sudo timedatectl set-timezone Europe/Zurich
           timedatectl
 
-      - name: Check out the repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Java JDK
