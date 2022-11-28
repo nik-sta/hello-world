@@ -1,6 +1,7 @@
 plugins {
     id "idea"
     id "application"
+    id "maven-publish"
 
     id 'org.jetbrains.kotlin.jvm' version '1.7.22'
     id "org.jetbrains.kotlin.plugin.spring" version "1.7.22"
@@ -71,4 +72,53 @@ docker {
     files bootJar.archivePath, 'docker/build_application.sh', 'docker/run_application.sh'
     buildArgs([APP_NAME: 'hello-world', JAR_FILE: 'hello-world.jar'])
     pull true
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/nik-sta/hello-world")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                groupId = project.group
+                name = rootProject.name
+                description = 'My awesome open-source project.'
+                url = 'https://github.com/nik-sta/hello-world'
+                packaging = 'jar' // jar is the default, but still set it to make it clear
+
+                licenses {
+                    license {
+                        name = 'The Unlicense'
+                        url = 'https://unlicense.org/'
+                    }
+                }
+
+                scm {
+                    url = 'https://github.com/nik-sta/hello-world'
+                    connection = 'scm:git://github.com:nik-sta/hello-world.git'
+                    developerConnection = 'scm:git://github.com:nik-sta/hello-world.git'
+                }
+
+                developers {
+                    developer {
+                        id = 'nik-sta'
+                        name = 'Nikola Stanković'
+                        email = 'nikola@stankovic.xyz'
+                        organizationUrl = 'https://niksta.dev/'
+                    }
+                }
+            }
+        }
+    }
 }

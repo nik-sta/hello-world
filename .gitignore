@@ -6,6 +6,7 @@ build/
 !**/src/test/**
 logs/
 *.log
+gradle.properties
 
 ### STS ###
 .apt_generated
