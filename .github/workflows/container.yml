@@ -53,6 +53,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args:
-            - APP_NAME: hello-world
-            - JAR_FILE: hello-world.jar
+          build-args: |
+            APP_NAME=hello-world
+            JAR_FILE=hello-world.jar
