@@ -35,11 +35,15 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Download artifact
-        # https://github.com/actions/download-artifact
-        uses: actions/download-artifact@v3
+        # https://github.com/dawidd6/action-download-artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
         with:
+          workflow: build.yml
+          workflow_conclusion: success
           name: hello-world.jar
-          path: docker/
+          path: docker
+          if_no_artifact_found: fail
 
       - name: Build and push image
         # https://github.com/docker/build-push-action
