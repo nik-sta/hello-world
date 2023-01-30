@@ -69,7 +69,7 @@ docker {
     dependsOn bootJar
     name "${project.group}/${rootProject.name}:${version}"
     dockerfile file("docker/Dockerfile")
-    files bootJar.archivePath, 'docker/build_application.sh', 'docker/run_application.sh'
+    files bootJar.archiveFile, 'docker/build_application.sh', 'docker/run_application.sh', 'docker/packages.list'
     buildArgs([APP_NAME: 'hello-world', JAR_FILE: 'hello-world.jar'])
     pull true
 }

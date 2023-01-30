@@ -7,7 +7,6 @@ application:
 logging:
   level:
     org.zalando.logbook: TRACE
-    io.viascom.bot.discord.darkstim: DEBUG
   file:
     name: ./logs/hello-world.log
 

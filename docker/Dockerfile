@@ -1,5 +1,8 @@
+# Making here use of a docker multi-stage build
+# https://docs.docker.com/build/building/multi-stage/
+
 # Build-time container
-FROM eclipse-temurin:17.0.4_8-jdk-alpine as builder
+FROM azul/zulu-openjdk-alpine:17.0.6 as builder
 ARG JAR_FILE
 WORKDIR application
 COPY $JAR_FILE application.jar
@@ -19,9 +22,10 @@ ENV APP=$APP_NAME \
     PATH="${JAVA_HOME}/bin:${PATH}"
 
 ## Adding programs for operation
-RUN apk update && \
-    apk --no-cache add dumb-init curl jq jattach && \
-    rm -rf /var/cache/apk/*
+COPY packages.list /tmp
+RUN xargs -r apk -v --update-cache add < /tmp/packages.list && \
+    rm -rf /var/cache/apk/* && \
+    rm /tmp/packages.list
 
 WORKDIR /srv/$APP
 
