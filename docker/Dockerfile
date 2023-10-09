@@ -2,7 +2,7 @@
 # https://docs.docker.com/build/building/multi-stage/
 
 # Build-time container
-FROM azul/zulu-openjdk-alpine:17.0.6 as builder
+FROM azul/zulu-openjdk-alpine:21.0.0 as builder
 ARG JAR_FILE
 WORKDIR application
 COPY $JAR_FILE application.jar
@@ -10,7 +10,7 @@ COPY build_application.sh ./
 RUN sh build_application.sh
 
 # Run-time container
-FROM alpine:3.18.0
+FROM alpine:3.18.4
 
 ARG APP_NAME=app
 ARG USER=exie
