@@ -18,7 +18,7 @@ class HelloWorldController {
 
     @GetMapping("/hello-world")
     @ResponseBody
-    fun sayHello(@RequestParam(name = "name", required = false, defaultValue = "Stranger") name: String?): Greeting {
+    fun sayHello(@RequestParam(name = "name", required = false, defaultValue = "Stranger") name: String): Greeting {
         log.info("/hello-world called with name: $name")
         return Greeting(counter.incrementAndGet(), String.format(template, name))
     }

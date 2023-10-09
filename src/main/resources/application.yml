@@ -1,4 +1,24 @@
-server.port: 8080
+server:
+  port: 8080
+  ssl:
+    bundle: "server"
+    enabled-protocols: TLSv1.3
+
+spring:
+  ssl:
+    bundle:
+      jks:
+        server:
+          key:
+            alias: "server"
+          keystore:
+            location: "classpath:localhost.p12"
+            password: "localpassword"
+            type: "PKCS12"
+      pem:
+        client:
+          truststore:
+            certificate: "classpath:localhost.crt"
 
 application:
   name: Hello World
@@ -7,6 +27,7 @@ application:
 logging:
   level:
     org.zalando.logbook: TRACE
+    org.apache.http: DEBUG
   file:
     name: ./logs/hello-world.log
 
@@ -23,3 +44,8 @@ management:
   endpoints.web.exposure.include: info,health
   endpoint.health.show-details: always
   endpoint.health.probes.enabled: true
+  dynatrace:
+    metrics:
+      export:
+        v1:
+          technology-type:
