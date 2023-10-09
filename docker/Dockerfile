@@ -10,7 +10,7 @@ COPY build_application.sh ./
 RUN sh build_application.sh
 
 # Run-time container
-FROM alpine:3.18.0
+FROM alpine:3.18.4
 
 ARG APP_NAME=app
 ARG USER=exie
