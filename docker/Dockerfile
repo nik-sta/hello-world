@@ -2,7 +2,7 @@
 # https://docs.docker.com/build/building/multi-stage/
 
 # Build-time container
-FROM azul/zulu-openjdk-alpine:21.0.0 as builder
+FROM azul/zulu-openjdk-alpine:21.0.0-21.28.85 as builder
 ARG JAR_FILE
 WORKDIR application
 COPY $JAR_FILE application.jar
