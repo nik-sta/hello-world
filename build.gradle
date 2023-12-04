@@ -46,7 +46,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation "org.zalando:logbook-logstash:3.4.0"
-    implementation "org.zalando:logbook-spring-boot-starter:3.5.0"
+    implementation "org.zalando:logbook-spring-boot-starter:3.7.0"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.boot:spring-boot-starter-web"
